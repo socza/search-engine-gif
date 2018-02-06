@@ -3,7 +3,7 @@ App = React.createClass({
     getInitialState() {
 
         return {
-            
+
             loading: false,
             searchingText: '',
             gif: {}
@@ -15,7 +15,7 @@ App = React.createClass({
     handleSearch: function(searchingText) {  // 1.
 
         this.setState({
-            
+
             loading: true  // 2.
 
         });
@@ -47,7 +47,7 @@ App = React.createClass({
 
             if (xhr.status === 200) {
 
-                var data = JSON.parse(xhr.responseText).data; // 4.
+                var data = JSON.parse(xhr.responseText).data;  // 4.
                 var gif = {  // 5.
 
                     url: data.fixed_width_downsampled_url,
@@ -68,7 +68,7 @@ App = React.createClass({
     render: function() {
 
         var styles = {
-            
+
             margin: '0 auto',
             textAlign: 'center',
             width: '90%'
@@ -78,10 +78,10 @@ App = React.createClass({
         return (
 
             <div style={styles}>
-            
+
                 <h1>Wyszukiwarka GIFow!</h1>
                 <p>Znajdź gifa na <a href='http://giphy.com'>giphy</a>. Naciskaj enter, aby pobrać kolejne gify.</p>
-                
+
                 <Search onSearch={this.handleSearch}/>
 
                 <Gif 
