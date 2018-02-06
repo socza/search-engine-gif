@@ -1,0 +1,19 @@
+{
+  "name": "search-engine-gif",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "dependencies": {
+    "babel-standalone": "^6.26.0"
+  },
+  "devDependencies": {
+    "http-server": "^0.11.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
