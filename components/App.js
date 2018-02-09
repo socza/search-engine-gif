@@ -20,17 +20,33 @@ App = React.createClass({
 
         });
 
-        this.getGif(searchingText, function(gif) {  // 3.
+        // -------------- wersja z promise ----------------
 
-            this.setState({  // 4
+        this.getGif(searchingText).then (  // 3.
+
+            gif => this.setState({  // 4
 
                 loading: false,  // a
                 gif: gif,  // b
                 searchingText: searchingText  // c
 
-            });
+            })
 
-        }.bind(this));
+        )
+
+        // -------------- wersja bez promise ----------------
+
+        // this.getGif(searchingText, function(gif) {  // 3.
+
+        //     this.setState({  // 4
+
+        //         loading: false,  // a
+        //         gif: gif,  // b
+        //         searchingText: searchingText  // c
+
+        //     });
+
+        // }.bind(this));
 
     },
 
@@ -47,13 +63,12 @@ App = React.createClass({
 
                 var url = GIPHY_API_URL + '/v1/gifs/random?api_key=' + GIPHY_PUB_KEY + '&tag=' + searchingText;  // 2.
                 var xhr = new XMLHttpRequest();  // 3.
-                xhr.open('GET', url);
-
+                
                 xhr.onload = function() {
 
-                    if (xhr.status === 200) {
+                    if (this.status === 200) {
 
-                        var data = JSON.parse(xhr.responseText).data;  // 4.
+                        var data = JSON.parse(this.responseText).data;  // 4.
                         var gif = {  // 5.
 
                             url: data.fixed_width_downsampled_url,
@@ -84,7 +99,7 @@ App = React.createClass({
 
         );
 
-    }
+    },
 
     // -------------- wersja bez promise ----------------
     
