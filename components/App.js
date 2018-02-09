@@ -34,36 +34,89 @@ App = React.createClass({
 
     },
 
-    getGif: function(searchingText, callback) {  // 1.
+    // -------------- wersja z promise ----------------
 
-        var GIPHY_API_URL = 'http://api.giphy.com';
-        var GIPHY_PUB_KEY = 'yiyfh3SNykDaUmo4rjYFIqbQrrXvKSai';
+    getGif: function(searchingText) {  // 1.
 
-        var url = GIPHY_API_URL + '/v1/gifs/random?api_key=' + GIPHY_PUB_KEY + '&tag=' + searchingText;  // 2.
-        var xhr = new XMLHttpRequest();  // 3.
-        xhr.open('GET', url);
+        return new Promise (
 
-        xhr.onload = function() {
+            function (resolve, reject) {
 
-            if (xhr.status === 200) {
+                var GIPHY_API_URL = 'http://api.giphy.com';
+                var GIPHY_PUB_KEY = 'yiyfh3SNykDaUmo4rjYFIqbQrrXvKSai';
 
-                var data = JSON.parse(xhr.responseText).data;  // 4.
-                var gif = {  // 5.
+                var url = GIPHY_API_URL + '/v1/gifs/random?api_key=' + GIPHY_PUB_KEY + '&tag=' + searchingText;  // 2.
+                var xhr = new XMLHttpRequest();  // 3.
+                xhr.open('GET', url);
 
-                    url: data.fixed_width_downsampled_url,
-                    sourceUrl: data.url
+                xhr.onload = function() {
+
+                    if (xhr.status === 200) {
+
+                        var data = JSON.parse(xhr.responseText).data;  // 4.
+                        var gif = {  // 5.
+
+                            url: data.fixed_width_downsampled_url,
+                            sourceUrl: data.url
+
+                        };
+
+                        resolve(gif);  // 6.
+
+                    } else {
+
+                        reject(new Error(this.statusText));
+
+                    }
 
                 };
 
-                callback(gif);  // 6.
+                xhr.onerror = function () {
+
+                    reject(new Error(`XMLHttpRequest Error: ${this.statusText}`));
+
+                };
+
+                xhr.open('GET', url);
+                xhr.send();
 
             }
 
-        };
+        );
 
-        xhr.send();
+    }
 
-    },
+    // -------------- wersja bez promise ----------------
+    
+    // getGif: function(searchingText, callback) {
+        
+    //     var GIPHY_API_URL = 'http://api.giphy.com';
+    //     var GIPHY_PUB_KEY = 'yiyfh3SNykDaUmo4rjYFIqbQrrXvKSai';
+
+    //     var url = GIPHY_API_URL + '/v1/gifs/random?api_key=' + GIPHY_PUB_KEY + '&tag=' + searchingText;
+    //     var xhr = new XMLHttpRequest();
+    //     xhr.open('GET', url);
+        
+    //     xhr.onload = function () {
+            
+    //         if (xhr.status === 200) {
+                
+    //             var data = JSON.parse(xhr.responseText).data;
+    //             var gif = {
+                    
+    //                 url: data.fixed_width_downsampled_url,
+    //                 sourceUrl: data.url
+            
+    //             };
+            
+    //             callback(gif);
+        
+    //         }
+    //     };
+    
+    //     xhr.send();
+  
+    // },
 
     render: function() {
 
